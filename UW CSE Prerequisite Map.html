@@ -1,0 +1,581 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>UW CSE Prerequisite Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&display=swap">
+<style>
+/* Layout: toolbar over a two-pane workspace — scrollable layered graph (left), course detail (right); stacks on phones. */
+:root{
+  --bg:#f3f4f2; --surface:#ffffff; --fg:#1d2321; --muted:#5d6763; --line:#d5dad7; --edge:#a9b2ae;
+  --accent:#0f6f63; --accent2:#b4531a;
+  --l1:#e5eef9; --l1b:#6f93c4; --l3:#e3f2ea; --l3b:#5c9e7a; --l4:#fbefdc; --l4b:#c08a3c; --l5:#f1e6f3; --l5b:#9a6ba3; --ext:#eceeed; --extb:#9aa29f;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2220; --fg:#e3e8e5; --muted:#9aa5a0; --line:#323b38; --edge:#56625d;
+  --accent:#4cc2b0; --accent2:#f0955a;
+  --l1:#1d2a3a; --l1b:#6f93c4; --l3:#1b2f25; --l3b:#5fae84; --l4:#33291a; --l4b:#c99a52; --l5:#2d2131; --l5b:#b087b8; --ext:#252b29; --extb:#6c7672;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2220; --fg:#e3e8e5; --muted:#9aa5a0; --line:#323b38; --edge:#56625d;
+  --accent:#4cc2b0; --accent2:#f0955a;
+  --l1:#1d2a3a; --l1b:#6f93c4; --l3:#1b2f25; --l3b:#5fae84; --l4:#33291a; --l4b:#c99a52; --l5:#2d2131; --l5b:#b087b8; --ext:#252b29; --extb:#6c7672;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 28px;max-width:1600px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+h1{font-family:var(--f-display);font-weight:600;font-size:1.75rem;letter-spacing:.01em;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:2px 0 0;max-width:68ch}
+.sub a{color:var(--accent)}
+.tools{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.search{position:relative}
+.search input{font:inherit;font-family:var(--f-mono);font-size:13px;width:200px;max-width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg)}
+.search input:focus-visible,button:focus-visible,label:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.tog{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;cursor:pointer;user-select:none}
+.tog input{accent-color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1.5px solid}
+.ln{display:inline-block;width:26px;height:0;border-top:2px solid var(--muted);vertical-align:middle;margin-right:5px}
+.ws{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:start}
+@media (max-width:900px){.ws{grid-template-columns:minmax(0,1fr)}}
+.graph{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:auto;max-height:calc(100vh - 170px);min-height:420px;position:relative}
+@media (max-width:900px){.graph{max-height:70vh}}
+svg{display:block}
+.colhead{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;fill:var(--muted)}
+.edge{fill:none;stroke:var(--edge);stroke-width:1.2;opacity:.55;transition:opacity .15s}
+.edge.or{stroke-dasharray:5 3}
+.edge.rec,.edge.coreq{stroke-dasharray:1.5 3}
+.node{cursor:pointer}
+.node rect{stroke-width:1.5;transition:opacity .15s}
+.node text{pointer-events:none}
+.node .c{font-family:var(--f-mono);font-weight:600;font-size:12px;fill:var(--fg)}
+.node .t{font-size:10.5px;fill:var(--muted)}
+.lv1 rect{fill:var(--l1);stroke:var(--l1b)} .lv3 rect{fill:var(--l3);stroke:var(--l3b)}
+.lv4 rect{fill:var(--l4);stroke:var(--l4b)} .lv5 rect{fill:var(--l5);stroke:var(--l5b)}
+.lvx rect{fill:var(--ext);stroke:var(--extb);stroke-dasharray:3 2}
+.node:hover rect{stroke-width:2.5}
+.focus .node{opacity:.22} .focus .edge{opacity:.07}
+.focus .node.on{opacity:1} .focus .edge.anc{opacity:.95;stroke:var(--accent);stroke-width:1.8}
+.focus .edge.desc{opacity:.9;stroke:var(--accent2);stroke-width:1.6}
+.node.sel rect{stroke:var(--fg);stroke-width:3}
+.node.anc rect{stroke:var(--accent);stroke-width:2.2} .node.desc rect{stroke:var(--accent2);stroke-width:2.2}
+aside{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0;max-height:calc(100vh - 170px);overflow:auto}
+@media (max-width:900px){aside{max-height:none}}
+.code{font-family:var(--f-mono);font-weight:600;font-size:1.35rem;margin:0}
+.title{font-size:1.02rem;font-weight:500;margin:2px 0 0;text-wrap:balance}
+.meta{font-size:12px;color:var(--muted);margin-top:4px}
+h3{font-family:var(--f-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
+.grp{display:flex;gap:8px;align-items:baseline;margin-bottom:8px}
+.grp .k{flex:0 0 92px;font-size:12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
+.chip{font-family:var(--f-mono);font-size:12px;font-weight:500;padding:2px 7px;border-radius:4px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.x{border-style:dashed;color:var(--muted)}
+.or-sep{font-size:11px;color:var(--muted);align-self:center}
+.quote{font-size:13px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px;margin:0}
+.tree ul{list-style:none;margin:0;padding-left:16px;border-left:1px solid var(--line)}
+.tree>ul{padding-left:0;border:0}
+.tree li{margin:3px 0;font-size:12.5px}
+.tree .op{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:4px}
+.tree .seen{font-size:11px;color:var(--muted)}
+.empty{color:var(--muted);font-size:13px;margin:0}
+.btn{font:inherit;font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg);cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.note{font-size:12px;color:var(--muted);margin:0}
+.grad{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.grad h2{font-family:var(--f-display);font-weight:600;font-size:1.15rem;margin:0}
+.grad p{margin:0;color:var(--muted);font-size:13px;max-width:72ch}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.gc{font:inherit;text-align:left;display:flex;flex-direction:column;gap:1px;padding:7px 10px;border-radius:5px;border:1.5px solid var(--l5b);background:var(--l5);color:var(--fg);cursor:pointer;min-width:0}
+.gc b{font-family:var(--f-mono);font-size:12px;font-weight:600}
+.gc span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc:hover{border-width:2.5px;padding:6px 9px}
+.gc.sel{border-color:var(--fg);border-width:3px;padding:5.5px 8.5px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>UW CSE Prerequisite Map</h1>
+      <p class="sub">Every course in the <a href="https://www.washington.edu/students/crscat/cse.html">CSE catalog</a> that builds on CSE 123 or CSE 143, placed by the longest chain of prerequisites behind it. Click a course to trace what it needs (teal) and what it opens up (orange).</p>
+    </div>
+    <div class="tools">
+      <div class="search"><input id="q" list="codes" placeholder="Find a course (332)" autocomplete="off" aria-label="Find a course"><datalist id="codes"></datalist></div>
+      <label class="tog"><input type="checkbox" id="optRec" checked> Recommended links</label>
+    </div>
+  </header>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--l1);border-color:var(--l1b)"></i>100-level</span>
+    <span><i class="sw" style="background:var(--l3);border-color:var(--l3b)"></i>300-level</span>
+    <span><i class="sw" style="background:var(--l4);border-color:var(--l4b)"></i>400-level</span>
+    <span><i class="sw" style="background:var(--l5);border-color:var(--l5b)"></i>Graduate (500+)</span>
+    <span><i class="sw" style="background:var(--ext);border-color:var(--extb);border-style:dashed"></i>Outside CSE / retired</span>
+    <span><i class="ln"></i>Required</span>
+    <span><i class="ln" style="border-top-style:dashed"></i>One of several</span>
+    <span><i class="ln" style="border-top-style:dotted"></i>Recommended or concurrent</span>
+  </div>
+  <div class="ws">
+    <div class="graph" id="graph"><svg id="svg"></svg></div>
+    <aside id="panel" aria-live="polite"></aside>
+  </div>
+  <section class="grad" aria-labelledby="gradh">
+    <h2 id="gradh">Graduate courses with no course prerequisites</h2>
+    <p>These 500-level and above courses list no specific course as a prerequisite, so they sit outside the chain. Some still ask for background such as linear algebra; click one to see the catalog wording.</p>
+    <div class="gl" id="gradList"></div>
+  </section>
+  <p class="note">Prerequisites parsed from catalog wording, retrieved November 2026. A few long recommendations are truncated in the source listing; MyPlan has the full text. Minimum-grade and "or permission" conditions are shown in the catalog wording for each course.<br>Made by Silver Liu</p>
+</div>
+<script>
+const RAW = `CSE 110|Computer Science Principles|5|NONE
+CSE 112|Advanced Placement (AP) Computer Science A|4|NONE
+CSE 121|Introduction to Computer Programming I|4|Recommended: completion of Paul G. Allen School's Guided Self-Placement.
+CSE 122|Introduction to Computer Programming II|4|Recommended: CSE 121 or completion of Paul G. Allen School's Guided Self-Placement.
+CSE 123|Introduction to Computer Programming III|4|Recommended: CSE 122 or completion of Paul G. Allen School's Guided Self-Placement.
+CSE 131|Science and Art of Digital Photography|4|NONE
+CSE 142|Computer Programming I|4|NONE
+CSE 143|Computer Programming II|5|Prerequisite: CSE 142.
+CSE 154|Web Programming|5|a minimum grade of 2.0 in either CSE 122, CSE 123, CSE 142, CSE 143, CSE 160, or CSE 163.
+CSE 160|Data Programming|4|NONE
+CSE 163|Intermediate Data Programming|4|either CSE 122, CSE 123, CSE 142, CSE 143, or CSE 160.
+CSE 170|Artificial Intelligence Principles, Applications, and Impacts|4|NONE
+CSE 180|Introduction to Data Science|4|NONE
+CSE 190|Current Topics in Computer Science and Engineering|1-5, max. 15|NONE
+CSE 195|Allen Scholars Bridge Program|5|NONE
+CSE 196|Allen Scholars Seminar|1, max. 4|NONE
+CSE 197|Problem Solving for Computer Science and Engineering|1/2, max. 8|Must be taken with CSE 121, CSE 122, or CSE 123.
+CSE 301|CSE Internship Education|1-2, max. 12|Open only to students who have been admitted to CSE Internship Program or by special permission of the Department.
+CSE 311|Foundations of Computing I|4|a minimum grade of 2.0 in either CSE 123 or CSE 143; and a minimum grade of 2.0 in MATH 126 or MATH 135.
+CSE 312|Foundations of Computing II|4|CSE 311.
+CSE 331|Software Design and Implementation|4|a minimum grade of 2.0 in either CSE 123 or CSE 143.
+CSE 332|Data Structures and Parallelism|4|CSE 311.
+CSE 333|Systems Programming|4|CSE 351.
+CSE 340|Interaction Programming|4|CSE 123 or CSE 143.
+CSE 341|Programming Languages|4|CSE 123 or CSE 143.
+CSE 344|Introduction to Data Management|4|CSE 311.
+CSE 351|The Hardware/Software Interface|4|CSE 123 or CSE 143.
+CSE 369|Introduction to Digital Design|3|CSE 311.
+CSE 371|Design of Digital Circuits and Systems|5|either E E 205 or E E 215; either E E 271 or CSE 369.
+CSE 373|Data Structures and Algorithms|4|CSE 123 or CSE 143.
+CSE 374|Intermediate Programming Concepts and Tools|3|CSE 123 or CSE 143.
+CSE 390|Special Topics in Computer Science and Engineering|1-5, max. 10|NONE
+CSE 391|System and Software Tools|1|either CSE 122, CSE 123, or CSE 143.
+CSE 394|Introduction to Research in Computer Science and Engineering|2|NONE
+CSE 399|CSE Foreign Study|*|NONE
+CSE 401|Introduction to Compiler Construction|4|CSE 332 and CSE 351.
+CSE 402|Design and Implementation of Domain-Specific Languages|4|CSE 332 and CSE 351.
+CSE 403|Software Engineering|4|CSE 331; CSE 332.
+CSE 410|Computer Systems|3|CSE 373.
+CSE 412|Introduction to Data Visualization|4|either CSE 123, CSE 143, or CSE 163.
+CSE 413|Programming Languages and Their Implementation|3|CSE 373.
+CSE 414|Introduction to Database Systems|4|a minimum grade of 2.5 in either CSE 123, CSE 143, or CSE 163.
+CSE 415|Introduction to Artificial Intelligence|3|CSE 373.
+CSE 416|Introduction to Machine Learning|4|either CSE 123, CSE 143, CSE 160, or CSE 163; and either STAT 311, STAT 390, STAT 391, IND E 315, MATH 394/STAT 394, [...]
+CSE 417|Algorithms and Computational Complexity|3|CSE 373.
+CSE 421|Introduction to Algorithms|3|CSE 312; CSE 332.
+CSE 422|Toolkit for Modern Algorithms|3|CSE 312; CSE 332; and MATH 136 or MATH 208.
+CSE 426|Cryptography|4|CSE 312.
+CSE 427|Computational Biology|3|CSE 312; CSE 332.
+CSE 428|Computational Biology Capstone|5|CSE 312; CSE 331; CSE 332.
+CSE 431|Introduction to Theory of Computation|3|CSE 312.
+CSE 434|Introduction to Quantum Computation|4|CSE 312; and MATH 136 or MATH 208.
+CSE 438|Computational Neuroscience|3|MATH 126 or MATH 136; MATH 208; and CSE 312.
+CSE 440|Introduction to HCI: User Interface Design, Prototyping, and Evaluation|5|CSE 332.
+CSE 441|Advanced HCI: Advanced User Interface Design, Prototyping, and Evaluation|5|CSE 440.
+CSE 442|Data Visualization|4|CSE 332.
+CSE 443|Digital Accessibility|4|CSE 340.
+CSE 444|Database Systems Internals|4|CSE 332; and either CSE 344 or CSE 414.
+CSE 446|Machine Learning|4|CSE 332; MATH 208 or MATH 136; and either STAT 390, STAT 391, or CSE 312.
+CSE 447|Natural Language Processing|4|CSE 312 and CSE 332; recommended: MATH 208; and CSE 446 is recommended before or concurrently.
+CSE 450|Animation Production Seminar|1|NONE
+CSE 451|Introduction to Operating Systems|4|CSE 332; CSE 333; and CSE 351.
+CSE 452|Introduction to Distributed Systems|4|CSE 332 and CSE 333. ; recommended: CSE 451
+CSE 453|Datacenter Systems|4|CSE 332 and CSE 333; recommended: CSE 451 or CSE 452.
+CSE 454|Advanced Internet and Web Services|5|CSE 332; CSE 351; either CSE 331 or CSE 352.
+CSE 455|Computer Vision|4|CSE 332.
+CSE 456|Story Design for Computer Animation|4|NONE
+CSE 457|Computer Graphics|4|CSE 332.
+CSE 458|Computer Animation|5|CSE 457.
+CSE 459|Pre-Production for Collaborative Animation|5|CSE 458.
+CSE 460|Animation Capstone|5|CSE 458, CSE 459.
+CSE 461|Introduction to Computer-Communication Networks|4|either CSE 326 or CSE 332; either CSE 303 or CSE 333.
+CSE 462|Wireless Communication|4|CSE 333; and MATH 136 or MATH 208.
+CSE 464|Advanced Topics in Digital Animation|1-5, max. 10|NONE
+CSE 469|Computer Architecture I|5|either E E 271 or CSE 369; and either CSE 123 or CSE 143.
+CSE 470|Computer Architecture II|4|either CSE 469 or E E 469.
+CSE 472|Introduction to Computational Linguistics|5|either LING 200 or LING 400; either LING 461 or CSE 311.
+CSE 473|Artificial Intelligence|3|CSE 312 and CSE 332.
+CSE 474|Introduction to Embedded Systems|4|CSE 123 or CSE 143
+CSE 475|Embedded Systems Capstone|5|E E 271 or CSE 369; and E E 472 or CSE 474/E E 474.
+CSE 478|Autonomous Robotics|4|CSE 332; recommended: CSE 312; MATH 208.
+CSE 480|Computer Ethics Seminar|1-3, max. 5|NONE
+CSE 481|Capstone Software Design|5, max. 15|CSE 312; CSE 332; CSE 351; and either CSE 331, CSE 333, or CSE 369.
+CSE 482|Capstone Software Design to Empower Underserved Populations|5, max. 15|CSE 332; CSE 351; either CSE 331 or CSE 352.
+CSE 484|Computer Security|4|CSE 332; CSE 351.
+CSE 486|Introduction to Synthetic Biology|3|either MATH 136, MATH 207, MATH 307, AMATH 351, or CSE 311; and either MATH 208, MATH 308, or AMATH 352.
+CSE 487|Advanced Systems and Synthetic Biology|3|E E 423/BIOEN 423/CHEM E 476/CSE 486.
+CSE 488|Laboratory Methods in Synthetic Biology|4|E E 423/BIOEN 423/CHEM E 476/CSE 486; and either CHEM 142, CHEM 143, or CHEM 145.
+CSE 490|Special Topics in Computer Science and Engineering|1-5, max. 15|NONE
+CSE 491|Data Science and Society Seminar|1|NONE
+CSE 492|Undergraduate Seminar|1-2, max. 5|NONE
+CSE 493|Advanced Special Topics in Computer Science and Engineering|1-5, max. 15|NONE
+CSE 494|Guided Research in Computer Science and Engineering|3/4, max. 8|CSE 394.
+CSE 495|Project Practicum|[1-5]-, max. 5|NONE
+CSE 496|Honors Undergraduate Research|1-9, max. 9|NONE
+CSE 498|Undergraduate Research|1-9, max. 9|NONE
+CSE 499|Reading and Research|1-24, max. 24|NONE
+CSE 501|Programming Language Analysis and Implementation|4|CSE 341.
+CSE 503|Software Engineering|4|NONE
+CSE 505|Principles of Programming Languages|4|CSE 341.
+CSE 507|Computer-Aided Reasoning for Software|4|NONE
+CSE 510|Advanced Topics in Human-Computer Interaction|4|NONE
+CSE 512|Data Visualization|4|NONE
+CSE 513|Disability Inclusion for Technologists|4|NONE
+CSE 515|Statistical Methods in Computer Science|4|either CSE 312,STAT 341, STAT 391 or equivalent.
+CSE 517|Natural Language Processing|4|NONE
+CSE 519|Current Research in Computer Science|1, max. 18|NONE
+CSE 520|Computer Science Colloquium|1, max. 18|NONE
+CSE 521|Design and Analysis of Algorithms I|4|either CSE 332 or equivalent.
+CSE 522|Design and Analysis of Algorithms II|4|CSE 521.
+CSE 525|Randomized Algorithms and Probabilistic Analysis|4|either CSE 521 or equivalent.
+CSE 526|Cryptography|4|NONE
+CSE 527|Computational Biology|4|NONE
+CSE 528|Computational Neuroscience|3|Recommended: coursework in elementary calculus; linear algebra; and statistics.
+CSE 529|Computational Genomics|4|Recommended: familiarity with general concepts in machine learning (e.g. CSE 446 or equivalent); and some familiarity […]
+CSE 531|Computational Complexity I|4|either CSE 311 or equivalent.
+CSE 532|Computational Complexity II|4|NONE
+CSE 533|Advanced Topics in Complexity Theory|4|NONE
+CSE 534|Quantum Information and Computation|4|Recommended: either solid background in mathematics and/or theoretical computer science, or prior familiarity […]
+CSE 535|Theory of Optimization and Continuous Algorithms|4|NONE
+CSE 541|Interactive Learning|4|NONE
+CSE 542|Reinforcement Learning|4|Recommended: comfortable with programming; and working knowledge of linear algebra (MATH 208); vector calculus (MATH 126); […]
+CSE 543|Deep Learning|4|Recommended: comfortable with programming; and working knowledge of linear algebra (MATH 208); vector calculus (MATH 126); […]
+CSE 544|Principles of Database Systems|4|NONE
+CSE 546|Machine Learning|4|either CSE 312, STAT 341, STAT 391 or equivalent.
+CSE 547|Machine Learning for Big Data|4|either STAT 535 or CSE 546.
+CSE 548|Computer Systems Architecture|4|CSE 451.
+CSE 549|High-Performance Computer Architectures|4|CSE 548/E E 544.
+CSE 550|Computer Systems|4|CSE 451.
+CSE 551|Operating Systems|4|CSE 451.
+CSE 552|Distributed and Parallel Systems|4|CSE 551.
+CSE 554|Systems for Machine Learning|4|Recommended: machine learning from a course at the level of CSE 446; and systems from a course […]
+CSE 556|Computational Fabrication|4|NONE
+CSE 557|Computer Graphics|4|solid knowledge of linear algebra.
+CSE 558|Special Topics in Computer Graphics|4|CSE 557 or permission of instructor.
+CSE 561|Computer Communication and Networks|4|either CSE 451 or equivalent.
+CSE 562|Mobile Systems and Applications|4|Recommended: familiarity with low-level systems programming; digital representation of data; […]
+CSE 564|Computer Security and Privacy|4|NONE
+CSE 567|Digital VLSI: Gates to Systems|5|either E E 371/CSE 371, or E E 469/CSE 469.
+CSE 568|Introduction to VLSI Systems|4|either CSE 567 or permission of instructor.
+CSE 571|AI-based Mobile Robotics|4|either CSE 473 or permission of instructor.
+CSE 573|Artificial Intelligence|4|Recommended: familiarity with data structures; algorithms; probability; and computer programming.
+CSE 574|Explainable Artificial Intelligence|4|NONE
+CSE 576|Computer Vision|3|solid knowledge of linear algebra; good programming skills.
+CSE 577|Special Topics in Computer Vision|3|CSE 576/E E 576.
+CSE 578|Convex Optimization|4|A A 510, CHEM E 510, E E 510, or M E 510.
+CSE 579|Intelligent Control through Learning and Optimization|3|vector calculus; linear algebra; MATLAB.
+CSE 580|Computing for Social Good|4|NONE
+CSE 581|Computer Ethics|4|NONE
+CSE 582|Ethics in Artificial Intelligence|4|CSE 446 or CSE 546.
+CSE 583|Software Development for Data Scientists|4|NONE
+CSE 586|Introduction to Synthetic Biology|3|either MATH 136, MATH 207, MATH 307, AMATH 351, or CSE 311; and either MATH 208, MATH 308, or AMATH 352.
+CSE 587|Advanced Systems and Synthetic Biology|3|E E 523/BIOEN 523/CHEM E 576/CSE 586/MOLENG 525.
+CSE 589|Software Entrepreneurship|4|NONE
+CSE 590|Research Seminar|*, max. 50|NONE
+CSE 591|Group Projects in Computer Science|1-3, max. 25|NONE
+CSE 599|Special Topics in Computer Science|1-5, max. 30|NONE
+CSE 600|Independent Study or Research|*-|NONE
+CSE 601|Internship|1-2, max. 12|Open only to students who have been admitted to CSE Internship Program or by special permission of the Department.
+CSE 700|Master's Thesis|*-|NONE
+CSE 800|Doctoral Dissertation|*-|NONE`;
+// Parses catalog prerequisite sentences into structured groups.
+// Each course gets groups: [{kind:'req'|'rec'|'coreq', any:[codes], note}]
+// A group with one code is a hard requirement; several codes mean "one of".
+function parseCatalog(raw){
+  const CODE = /((?:[A-Z]{1,6} )*[A-Z]{1,6}) (\d{3})/g;
+  const courses = {};
+  const lines = raw.trim().split('\n');
+  for (const line of lines){
+    const [code, title, credits, text] = line.split('|');
+    courses[code] = {code, title, credits, text: text === 'NONE' ? '' : text, groups: [], ext:false};
+  }
+  function codesIn(s){
+    // find codes, merge slash-joined cross-listings and prefer the CSE alias
+    const out = []; let m; CODE.lastIndex = 0;
+    const hits = [];
+    while ((m = CODE.exec(s))){ hits.push({code: m[1]+' '+m[2], start:m.index, end:m.index+m[0].length}); }
+    for (let i=0;i<hits.length;i++){
+      const set=[hits[i].code];
+      while (i+1<hits.length && s.slice(hits[i].end, hits[i+1].start) === '/'){ i++; set.push(hits[i].code); }
+      out.push(set.find(c=>c.startsWith('CSE ')) || set[0]);
+    }
+    return [...new Set(out)];
+  }
+  for (const c of Object.values(courses)){
+    if (!c.text) continue;
+    if (/^Must be taken with/i.test(c.text)){
+      const any = codesIn(c.text); if (any.length) c.groups.push({kind:'coreq', any});
+      continue;
+    }
+    let rec = /^Recommended/i.test(c.text);
+    for (let clause of c.text.split(';')){
+      if (/recommended/i.test(clause)) rec = true;
+      clause = clause.trim().replace(/^and\s+/,'');
+      const codes = codesIn(clause);
+      if (!codes.length) continue;
+      const kind = rec ? 'rec' : 'req';
+      const isOr = /\bor\b|\beither\b/.test(clause);
+      if (isOr) c.groups.push({kind, any: codes});
+      else codes.forEach(x => c.groups.push({kind, any:[x]}));
+    }
+  }
+  // add placeholder nodes for courses outside the list (MATH, STAT, retired CSE)
+  for (const c of Object.values(courses)) for (const g of c.groups) for (const x of g.any){
+    if (!courses[x]) courses[x] = {code:x, title: x.startsWith('CSE ') ? 'No longer offered' : 'Outside CSE', credits:'', text:'', groups:[], ext:true};
+  }
+  return courses;
+}
+if (typeof module !== 'undefined') module.exports = parseCatalog;
+
+const C = parseCatalog(RAW);
+const NS = 'http://www.w3.org/2000/svg';
+const W = 156, H = 38, GX = 64, GY = 8, PADX = 16, PADY = 34;
+const svg = document.getElementById('svg'), graph = document.getElementById('graph'), panel = document.getElementById('panel');
+const opt = {ext:false, solo:false, rec:true};
+let selected = null, layout = null;
+
+const num = code => parseInt(code.match(/\d{3}/)[0], 10);
+const lvClass = c => c.ext ? 'lvx' : num(c.code) < 200 ? 'lv1' : num(c.code) < 400 ? 'lv3' : num(c.code) < 500 ? 'lv4' : 'lv5';
+// edges: from prereq -> course
+const EDGES = [];
+for (const c of Object.values(C)) for (const g of c.groups) for (const p of g.any)
+  EDGES.push({from:p, to:c.code, kind:g.kind, or:g.any.length > 1});
+const deps = {}; EDGES.forEach(e => (deps[e.from] ||= []).push(e));
+
+function visibleEdges(){
+  return EDGES.filter(e => (opt.rec || e.kind === 'req') && (opt.ext || !C[e.from].ext));
+}
+const ROOTS = ['CSE 123','CSE 143'];
+function build(){
+  const es = visibleEdges();
+  const out = {}; es.forEach(e => (out[e.from] ||= []).push(e.to));
+  const ids = walk(null, k => k === null ? ROOTS : (out[k] || []));
+  const nodes = [...ids].map(k => C[k]);
+  const E = es.filter(e => ids.has(e.from) && ids.has(e.to) && !ROOTS.includes(e.to));
+  const parents = {}; E.forEach(e => (parents[e.to] ||= []).push(e.from));
+  const depth = {};
+  const d = k => depth[k] ?? (depth[k] = parents[k] ? 1 + Math.max(...parents[k].map(d)) : 0);
+  nodes.forEach(n => d(n.code));
+  // pull outside-CSE nodes right next to their first dependent
+  const kids = {}; E.forEach(e => (kids[e.from] ||= []).push(e.to));
+  const cols = [];
+  nodes.forEach(n => (cols[depth[n.code]] ||= []).push(n.code));
+  cols.forEach(col => col.sort((a,b) => (C[a].ext - C[b].ext) || num(a) - num(b) || a.localeCompare(b)));
+  // barycenter sweeps to reduce crossings
+  const pos = {}; const setPos = () => cols.forEach(col => col.forEach((k,i) => pos[k] = i));
+  setPos();
+  for (let it = 0; it < 6; it++){
+    const down = it % 2 === 0;
+    const order = down ? cols.map((_,i)=>i) : cols.map((_,i)=>cols.length-1-i);
+    for (const ci of order){
+      const col = cols[ci]; if (!col) continue;
+      const bc = {};
+      col.forEach(k => {
+        const nb = down ? (parents[k]||[]) : (kids[k]||[]);
+        bc[k] = nb.length ? nb.reduce((s,x)=>s+pos[x],0)/nb.length : pos[k];
+      });
+      col.sort((a,b) => bc[a] - bc[b] || num(a) - num(b));
+      col.forEach((k,i) => pos[k] = i);
+    }
+  }
+  const xy = {};
+  cols.forEach((col,ci) => col.forEach((k,i) => xy[k] = {x: PADX + ci*(W+GX), y: PADY + i*(H+GY)}));
+  const width = PADX*2 + cols.length*(W+GX) - GX;
+  const height = PADY + Math.max(...cols.map(c => c.length))*(H+GY) + 16;
+  layout = {nodes, E, xy, cols, width, height};
+}
+function el(tag, attrs, parent){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; }
+const short = (s, n=24) => s.length > n ? s.slice(0, n-1).trimEnd() + '…' : s;
+
+function draw(){
+  const {nodes, E, xy, cols, width, height} = layout;
+  svg.innerHTML = '';
+  svg.setAttribute('width', width); svg.setAttribute('height', height);
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  cols.forEach((_, ci) => {
+    const t = el('text', {x: PADX + ci*(W+GX), y: 20, class:'colhead'}, svg);
+    t.textContent = ci === 0 ? 'Entry points' : ci === 1 ? '1 course deep' : ci + ' courses deep';
+  });
+  const gE = el('g', {}, svg), gN = el('g', {}, svg);
+  E.forEach(e => {
+    const a = xy[e.from], b = xy[e.to];
+    const x1 = a.x + W, y1 = a.y + H/2, x2 = b.x, y2 = b.y + H/2, mx = (x1 + x2)/2;
+    const cls = 'edge ' + (e.kind !== 'req' ? e.kind : e.or ? 'or' : '');
+    const p = el('path', {d:`M${x1},${y1} C${mx},${y1} ${x2-GX/2},${y2} ${x2},${y2}`, class: cls}, gE);
+    p.dataset.from = e.from; p.dataset.to = e.to;
+  });
+  nodes.forEach(n => {
+    const {x, y} = xy[n.code];
+    const g = el('g', {class:'node ' + lvClass(n), transform:`translate(${x},${y})`, tabindex:0, role:'button', 'aria-label': n.code + ' ' + n.title}, gN);
+    g.dataset.code = n.code;
+    el('rect', {width:W, height:H, rx:5}, g);
+    const c = el('text', {x:9, y:15, class:'c'}, g); c.textContent = n.code;
+    const t = el('text', {x:9, y:29, class:'t'}, g); t.textContent = short(n.title);
+    const tip = el('title', {}, g); tip.textContent = n.code + ' · ' + n.title;
+    g.addEventListener('click', () => select(n.code));
+    g.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(n.code); }});
+  });
+  highlight();
+}
+function walk(start, next){
+  const seen = new Set(), st = [start];
+  while (st.length){ const k = st.pop(); for (const n of next(k)) if (!seen.has(n)) { seen.add(n); st.push(n); } }
+  return seen;
+}
+function highlight(){
+  const nodes = svg.querySelectorAll('.node'), edges = svg.querySelectorAll('.edge');
+  svg.classList.toggle('focus', !!selected && !!layout.xy[selected]);
+  nodes.forEach(n => n.classList.remove('on','sel','anc','desc'));
+  edges.forEach(e => e.classList.remove('anc','desc'));
+  if (!selected || !layout.xy[selected]) return;
+  const par = {}, kid = {};
+  layout.E.forEach(e => { (par[e.to] ||= []).push(e.from); (kid[e.from] ||= []).push(e.to); });
+  const anc = walk(selected, k => par[k] || []), desc = walk(selected, k => kid[k] || []);
+  nodes.forEach(n => {
+    const k = n.dataset.code;
+    if (k === selected) n.classList.add('on','sel');
+    else if (anc.has(k)) n.classList.add('on','anc');
+    else if (desc.has(k)) n.classList.add('on','desc');
+  });
+  edges.forEach(e => {
+    const f = e.dataset.from, t = e.dataset.to;
+    if (anc.has(f) && (anc.has(t) || t === selected)) e.classList.add('anc');
+    if (desc.has(t) && (desc.has(f) || f === selected)) e.classList.add('desc');
+  });
+}
+function chip(code){
+  const b = document.createElement('button');
+  b.className = 'chip' + (C[code]?.ext ? ' x' : ''); b.textContent = code; b.type = 'button';
+  b.title = C[code] ? C[code].title : '';
+  b.addEventListener('click', () => select(code, true));
+  return b;
+}
+const KIND = {req:'Required', rec:'Recommended', coreq:'Take with'};
+function treeHTML(code, seen, depthLeft){
+  const c = C[code]; const ul = document.createElement('ul');
+  const groups = c.groups.filter(g => g.kind !== 'rec');
+  for (const g of groups){
+    if (g.any.length === 1){ ul.appendChild(treeItem(g.any[0], seen, depthLeft)); continue; }
+    const li = document.createElement('li');
+    {
+      const op = document.createElement('span'); op.className = 'op'; op.textContent = 'one of'; li.appendChild(op);
+      const inner = document.createElement('ul');
+      g.any.forEach(x => inner.appendChild(treeItem(x, seen, depthLeft)));
+      li.appendChild(inner);
+    }
+    ul.appendChild(li);
+  }
+  return ul;
+}
+function treeItem(code, seen, depthLeft){
+  const li = document.createElement('li'); li.appendChild(chip(code));
+  const c = C[code];
+  const name = document.createElement('span'); name.style.marginLeft = '6px'; name.textContent = c ? short(c.title, 34) : ''; li.appendChild(name);
+  if (c && c.groups.some(g => g.kind !== 'rec')){
+    if (seen.has(code)){ const s = document.createElement('span'); s.className = 'seen'; s.textContent = ' · chain shown above'; li.appendChild(s); }
+    else if (depthLeft > 0){ seen.add(code); li.appendChild(treeHTML(code, seen, depthLeft - 1)); }
+  }
+  return li;
+}
+function renderPanel(){
+  panel.innerHTML = '';
+  if (!selected){
+    panel.innerHTML = `<div><h3>How to read this</h3><p class="empty">Each box is a course. Lines run from a prerequisite to the course that needs it. Columns count how many courses deep a course sits, so entry points are on the left and the longest chains end on the right.</p></div><p class="empty">Pick any course to see its full prerequisite chain.</p>`;
+    return;
+  }
+  const c = C[selected];
+  const head = document.createElement('div');
+  head.innerHTML = `<p class="code"></p><p class="title"></p><p class="meta"></p>`;
+  head.querySelector('.code').textContent = c.code;
+  head.querySelector('.title').textContent = c.title;
+  head.querySelector('.meta').textContent = c.ext ? (c.code.startsWith('CSE') ? 'Listed as a prerequisite but not in the current catalog' : 'Course from another department') : `${c.credits} credits`;
+  panel.appendChild(head);
+  if (!layout.xy[selected]) panel.insertAdjacentHTML('beforeend', GRAD.includes(selected) ? '<p class="empty">Graduate course with no course prerequisites, listed below the map.</p>' : '<p class="empty">Not on the map: this course doesn’t build on CSE 123 or CSE 143.</p>');
+
+  const pre = document.createElement('div'); pre.innerHTML = '<h3>Needs</h3>';
+  if (!c.groups.length) pre.insertAdjacentHTML('beforeend', `<p class="empty">${c.ext ? 'See that department’s catalog.' : 'No course prerequisites.'}</p>`);
+  c.groups.forEach(g => {
+    const row = document.createElement('div'); row.className = 'grp';
+    const k = document.createElement('span'); k.className = 'k';
+    k.textContent = g.kind === 'req' ? (g.any.length > 1 ? 'One of' : 'Required') : KIND[g.kind] + (g.any.length > 1 ? ' (one of)' : '');
+    const chips = document.createElement('div'); chips.className = 'chips';
+    g.any.forEach((x,i) => { if (i) { const s = document.createElement('span'); s.className='or-sep'; s.textContent='or'; chips.appendChild(s); } chips.appendChild(chip(x)); });
+    row.append(k, chips); pre.appendChild(row);
+  });
+  panel.appendChild(pre);
+
+  if (c.text){
+    const q = document.createElement('div'); q.innerHTML = '<h3>Catalog wording</h3><p class="quote"></p>';
+    q.querySelector('.quote').textContent = c.text; panel.appendChild(q);
+  }
+  const ds = (deps[selected] || []).slice().sort((a,b)=>num(a.to)-num(b.to));
+  const un = document.createElement('div'); un.innerHTML = `<h3>Opens up (${ds.length})</h3>`;
+  if (!ds.length) un.insertAdjacentHTML('beforeend','<p class="empty">No course lists this as a prerequisite.</p>');
+  else {
+    const chips = document.createElement('div'); chips.className = 'chips';
+    ds.forEach(e => { const b = chip(e.to); if (e.kind !== 'req' || e.or) b.title += e.kind === 'rec' ? ' (recommended)' : e.kind === 'coreq' ? ' (taken together)' : ' (one of several options)'; if (e.kind === 'rec') b.style.opacity = .7; chips.appendChild(b); });
+    un.appendChild(chips);
+  }
+  panel.appendChild(un);
+
+  if (c.groups.some(g => g.kind !== 'rec')){
+    const t = document.createElement('div'); t.className = 'tree'; t.innerHTML = '<h3>Full prerequisite chain</h3>';
+    t.appendChild(treeHTML(selected, new Set(), 8)); panel.appendChild(t);
+  }
+  const clr = document.createElement('button'); clr.className = 'btn'; clr.type = 'button'; clr.textContent = 'Clear selection';
+  clr.addEventListener('click', () => select(null)); panel.appendChild(clr);
+}
+function select(code, scroll){
+  selected = code;
+  try { history.replaceState(null, '', code ? '#' + code.toLowerCase().replace(/\s+/g,'-') : location.pathname + location.search); } catch(e){}
+  highlight(); renderPanel();
+  document.querySelectorAll('.gc').forEach(b => b.classList.toggle('sel', b.dataset.code === selected));
+  if (code && !layout.xy[code] && scroll !== false) panel.scrollIntoView({block:'nearest', behavior:'smooth'});
+  if (code && scroll !== false && layout.xy[code]){
+    const p = layout.xy[code];
+    graph.scrollTo({left: Math.max(0, p.x - graph.clientWidth/2 + W/2), top: Math.max(0, p.y - graph.clientHeight/2), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  }
+}
+function fromHash(){
+  const h = decodeURIComponent(location.hash.slice(1)).toUpperCase().replace(/-(\d{3})$/, ' $1').replace(/-/g,' ');
+  return C[h] ? h : null;
+}
+// controls
+const dl = document.getElementById('codes');
+Object.values(C).filter(c=>!c.ext).forEach(c => { const o = document.createElement('option'); o.value = c.code; o.label = c.title; dl.appendChild(o); });
+const q = document.getElementById('q');
+function find(){
+  const v = q.value.trim().toUpperCase(); if (!v) return;
+  const hit = C[v] ? v : C['CSE ' + v] ? 'CSE ' + v : Object.values(C).find(c => !c.ext && c.title.toUpperCase().includes(v))?.code;
+  if (hit) select(hit);
+}
+q.addEventListener('change', find);
+q.addEventListener('keydown', e => { if (e.key === 'Enter') find(); });
+[['optRec','rec']].forEach(([id,k]) => document.getElementById(id).addEventListener('change', e => { opt[k] = e.target.checked; build(); draw(); }));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.activeElement !== q) select(null); });
+window.addEventListener('hashchange', () => { const h = fromHash(); if (h !== selected) select(h); });
+
+const GRAD = Object.values(C).filter(c => !c.ext && num(c.code) >= 500 && !c.groups.length).map(c => c.code);
+const gl = document.getElementById('gradList');
+GRAD.forEach(code => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'gc'; b.dataset.code = code;
+  const k = document.createElement('b'); k.textContent = code;
+  const t = document.createElement('span'); t.textContent = C[code].title; b.title = C[code].title;
+  b.append(k, t); b.addEventListener('click', () => select(code)); gl.appendChild(b);
+});
+build(); draw();
+select(fromHash() || 'CSE 451');
+</script>
+
+</body></html>
